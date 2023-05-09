@@ -1,0 +1,104 @@
+\documentclass[9pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+    						                 % TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{hyperref}
+\usepackage{doi}
+\usepackage{pf2}
+\usepackage{todonotes}
+
+%\usepackage{amsthm}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+
+\newcommand{\defeq}{\overset{\mathrm{def}}{=}}
+\newcommand{\mergeop}{\overset{\sqcup}\rightarrow}
+\newcommand{\localop}{\overset{\textbf{local}}\rightarrow}
+\newcommand{\anyop}[1]{\overset{#1}\rightarrow}
+
+\title{Byzantine Fault-Tolerant Single-Writer Append-Only Logs}
+\author{Erick Lavoie}
+%\date{March, 13, 2023}							% Activate to display a given date or no 
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+\section{Related Work}
+\label{sec:rel-work}
+
+Similar to \cite{bracha1987asyncByzantineAgreement}.
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+\section{Acknowledgements}
+\label{sec:acknowledgements}
+
+We thank Christian F. Tschudin for fostering a research environment allowing detours and playfulness in the process, as well as providing financial support for this work and feedback on earlier versions of this work. The idea of investigating the possibilities offered by allowing accounts to converge to a negative balance in some circumstances was first suggested by him. Once the prejudice against negative balances was abandoned, that opened the possibility of expressing accounts as state-based CRDTs and greatly simplified the design.
+
+I would also like to thank Prof. Dr. Tschudin for having initiated a CRDT seminar and invited me to co-teach it, which created the opportunity of learning how to formalize CRDT algorithms. I was initially planning to write a system paper on a similar design. However, after 6-7 design iterations, it became obvious that the design had subtleties that greatly benefitted from a more formal treatment to tease out and get right. The teaching of the CRDT seminar happened exactly at the right time to review fundamentals of distributed algorithms in general, and CRDTs in particular, to ramp up the skills to carry such work.
+
+
+\newpage
+
+\bibliographystyle{plainurl}
+\bibliography{main}
+
+\section{Notation and Conventions}
+\label{apdx:notation}
+
+We use notations and conventions that are good graphic mnemonics for the concepts and make the algorithms easier to reason about in the proofs (Section~\ref{sec:proofs}). The semantics are:
+
+\begin{itemize}
+	\item \textbf{Variables} are written in \textit{italic}:
+		\begin{itemize}
+			\item  lower case when containing literal values, ex: $id$;
+			\item upper case when containing an object with multiple fields, a dictionary with multiple key-value pairs, or a set with multiple elements. For example, $A$ for account object, $L$ for a ledger dictionary, and $S$ for a set;
+		\end{itemize}
+	\item An \textbf{object's field} is accessed using a subscript, ex: $A$'s identifier stored in field $\textbf{id}$ is accessed $A_{\scriptsize \textbf{id}}$;
+	\item An empty \textbf{dictionary} is written $\{\}$, accessing a dictionary $L$'s value stored under key $id$ is written $L[id]$, accessing all the keys of $L$ is written $L_*$;
+	\item \textbf{Assigning} a new value to a variable, a field, or a dictionary entry uses $\leftarrow$, ex: $id \leftarrow id'$, $A_{\scriptsize\textbf{id}} \leftarrow id$, $L[id] \leftarrow A$. Variables, fields, and dictionaries are mutable and can be modified in place;
+	 \item A \textbf{key-value} pair for dictionaries is written $\textit{key} \rightarrow \textit{value}$;
+	 \item We use "dictionary-comprehension", similar to Python, for inline initialization fo dictionares, ex: ${ \textit{key} \rightarrow \textit{value} ~\textbf{for}~ \textit{key} ~\textbf{in}~ K }$;
+	\item \textbf{Different states} for replicas of objects or dictionaries are written with $'$ and $''$ using the same variable name, ex: $A, A', A''$. We represent output values of functions using variable names with $'$ or $''$ to show they are later states of the same replica;
+	\item The  \textbf{flow of tokens} on an account is suggested by the direction of an arrow used as a field name: 
+		\begin{itemize}
+			\item $A_\uparrow$ returns the number created tokens, which increases the account balance without transfers;
+			\item $A_\downarrow$ returns the number of burned tokens, which decreases the account balance without transfers;
+			\item $A_{\leftarrow}$ is a dictionary and $A_{\leftarrow}[id]$ returns the number of tokens received from $id$ and therefore flowing \textit{into} account $A$ (the arrow is a subscript to distinguish from assignment);
+			\item $A_{\rightarrow}$ is a dictionary and $A_{\rightarrow}[id]$ returns the number of tokens given to $id$ therefore flowing \textit{out of} account $A$;
+		\end{itemize}
+\end{itemize}
+
+Apart from these, we use common mathematical and pseudo-code conventions: 
+\begin{itemize}
+	\item $x \in X$ is an element $x$ in a set $X$ and $x \notin X$ means $x$ is not in a set $X$;
+	\item $X \subseteq Y$ means $X$ is a subset of $Y$ which may include up to all elements of $Y$;
+	 \item $\sum$ is a summation;
+	 \item $\sum\limits_{x \in X} x$ is the sum of all elements in $X$;
+	 \item $\leq$ is smaller or equal;
+	 \item $\bigwedge$ and $\textbf{and}$ both represent a logical \textit{and};
+	 \item $\bigwedge\limits_{x \in X} x$ is the logical and between all elements in $X$;
+	 \item $\textbf{for}~x ~\textbf{in}~ X~\textbf{do}$ iterates over all values in $X$ sequentially assigning them to $x$.
+\end{itemize}
+
+\end{document}  
