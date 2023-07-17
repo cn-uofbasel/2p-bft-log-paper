@@ -296,16 +296,6 @@ doi={10.1145/3357150.3357396}
   note={Retrieved 2020-08-08 from \url{https://github.com/datproject/organization}}
 }
 
-@inproceedings{vanrenesse2008scuttlebutt,
-author = {van Renesse, Robbert and Dumitriu, Dan and Gough, Valient and Thomas, Chris},
-title = {Efficient Reconciliation and Flow Control for Anti-Entropy Protocols},
-year = {2008},
-isbn = {9781605582962},
-publisher = {ACM},
-booktitle = {LADIS 2008},
-keywords = {flow control, epidemics, gossip, anti-entropy}
-}
-
 @inproceedings{decandia2007dynamo,
 author = {DeCandia, Giuseppe and Hastorun, Deniz and Jampani, Madan and Kakulapati, Gunavardhan and Lakshman, Avinash and Pilchin, Alex and Sivasubramanian, Swaminathan and Vosshall, Peter and Vogels, Werner},
 title = {Dynamo: Amazon’s Highly Available Key-Value Store},
@@ -314,6 +304,7 @@ isbn = {9781595935915},
 publisher = {ACM},
 booktitle = {SOPS 2007},
 keywords = {reliability, performance, scalability},
+doi={10.1145/1323293.1294281}
 }
 
 @article{tarr2015designing,
@@ -522,14 +513,16 @@ keywords = {CRDTs, mobile computing, data ownership, collaboration software, pee
   title={{kappa-architecture.com/}},
   author={Pathirage, Milinda},
   year={2014},
-  note={Retrieved 2020-09-09 from \url{https://milinda.pathirage.org/kappa-architecture.com/}}
+  note={Retrieved 2020-09-09},
+  url = {https://milinda.pathirage.org/kappa-architecture.com/}
 }
 
 @misc{git,
   title={{git}},
   author={Torvalds, Linus and Hamano, Junio and others},
   year={2005},
-  note={Retrieved 2020-09-10 from \url{https://git-scm.com/}}
+  note={Retrieved 2020-09-10},
+  url = {https://git-scm.com/}
 }
 
 @misc{bittorrent,
@@ -781,11 +774,12 @@ booktitle = {SOPS 2007}
 }
 
 @inproceedings{kermarrec2020gossiping,
-  title={Gossiping with Append-Only Logs in Secure-Scuttlebutt},
+  title={{Gossiping with Append-Only Logs in Secure-Scuttlebutt}},
   author={Kermarrec, Anne-Marie and Lavoie, Erick and Tschudin, Christian},
   booktitle={Proceedings of the 1st International Workshop on Distributed Infrastructure for Common Good},
   pages={19--24},
-  year={2020}
+  year={2020},
+  doi={10.1145/3428662.3428794}
 }
 
 @article{otte2020trustchain,
@@ -2677,7 +2671,7 @@ CRDT Papers
   month = oct,
   pages = {386--400},
   doi = {10.1007/978-3-642-24550-3_29},
-  pdf = {https://pages.lip6.fr/Marek.Zawirski/papers/RR-7687.pdf},
+  URL = {https://hal.inria.fr/hal-00932836},
   publisher = {Springer LNCS volume 6976},
   keywords = {introduction}
 }
@@ -2852,8 +2846,7 @@ CRDT Papers
       year={2023},
       eprint={2304.01929},
       archivePrefix={arXiv},
-      primaryClass={cs.DC},
-      doi={10.48550/arXiv.2304.01929}
+      primaryClass={cs.DC}
 }
 
 @article{lamport2012write,
@@ -2869,7 +2862,8 @@ CRDT Papers
 @misc{crdt-website,
   title={{Conflict-Free Replicated Data Types}},
   author={Kleppmann, Martin and  Bieniusa, Annette and Shapiro, Marc},
-  note={Retrieved 2023-05-05 from \url{https://crdt.tech/}}
+  note={Retrieved on 2023-07-16},
+  url={https://crdt.tech/}
 }
 
 @misc{hypercore-website,
@@ -2880,19 +2874,22 @@ CRDT Papers
 @misc{hypercore-handling-conflicts,
   title={{Issue \#174: Handling conflicts}},
   author={EGreg and pfrazee and emilbayes and iamyellow and mafintosh},
-  note={Retrieved 2023-05-05 from \url{https://github.com/holepunchto/hypercore/issues/174}}
+  note={Retrieved 2023-05-05},
+  url = {https://github.com/holepunchto/hypercore/issues/174}
 }
 
 @misc{hypercore-split-resolution-dep,
   title={{Pull-Request \#43: Hypercore Split Resolution DEP \#43}},
   author={pfrazee and EGreg and yoshuawuyts},
-  note={Retrieved 2023-05-05 from \url{https://github.com/dat-ecosystem-archive/DEPs/pull/43}}
+  note={Retrieved 2023-05-05},
+  url = {https://github.com/dat-ecosystem-archive/DEPs/pull/43}
 }
 
 @misc{holepunch-website,
   title={{Holepunch}},
   year=2023,
-  note={Retrieved 2023-05-05 from \url{https://holepunch.to/}}
+  note={Retrieved 2023-05-05},
+  url = {https://holepunch.to/}
 }
 
 @book{cachin2011introduction,
@@ -2917,7 +2914,7 @@ issn = {0360-0300},
 url = {https://doi.org/10.1145/2926965},
 doi = {10.1145/2926965},
 journal = {ACM Comput. Surv.},
-month = {jun},
+month = {june},
 articleno = {19},
 numpages = {34},
 keywords = {Consistency, distributed storage}
@@ -3041,7 +3038,7 @@ numpages = {11},
 keywords = {group communication, asynchronous systems, fault-tolerance, semantics-aware primitives, atomic broadcast, reliable broadcast}
 }
 
-@inproceedings{vanRenesse2008reconciliation,
+@inproceedings{vanrenesse2008scuttlebutt,
 author = {van Renesse, Robbert and Dumitriu, Dan and Gough, Valient and Thomas, Chris},
 title = {Efficient Reconciliation and Flow Control for Anti-Entropy Protocols},
 year = {2008},
@@ -3051,7 +3048,7 @@ address = {New York, NY, USA},
 url = {https://doi.org/10.1145/1529974.1529983},
 doi = {10.1145/1529974.1529983},
 abstract = {The paper shows that anti-entropy protocols can process only a limited rate of updates, and proposes and evaluates a new state reconciliation mechanism as well as a flow control scheme for anti-entropy protocols.},
-booktitle = {Proceedings of the 2nd Workshop on Large-Scale Distributed Systems and Middleware},
+booktitle = {2nd Workshop on Large-Scale Distributed Systems and Middleware},
 articleno = {6},
 numpages = {7},
 keywords = {epidemics, gossip, anti-entropy, flow control},
@@ -3107,20 +3104,15 @@ doi = {10.1016/0890-5401(87)90054-X},
 author = {Gabriel Bracha},
 }
 
-@article{kleppmann2020bec,
+@misc{kleppmann2020bec,
   author       = {Martin Kleppmann and
                   Heidi Howard},
-  title        = {Byzantine Eventual Consistency and the Fundamental Limits of Peer-to-Peer
-                  Databases},
-  journal      = {CoRR},
-  volume       = {abs/2012.00472},
+  title        = {{Byzantine Eventual Consistency and the Fundamental Limits of Peer-to-Peer
+                  Databases}},
   year         = {2020},
-  url          = {https://arxiv.org/abs/2012.00472},
-  eprinttype    = {arXiv},
   eprint       = {2012.00472},
-  timestamp    = {Fri, 04 Dec 2020 12:07:23 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2012-00472.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+  archivePrefix={arXiv},
+  primaryClass={cs.DC}
 }
 
 @misc{lavoie2023gocledger,
@@ -3157,13 +3149,15 @@ author = {Gabriel Bracha},
   title={Self-certifying File System},
   author={Mazi{\`e}res, David},
   year={2000},
-  school={Massachusetts Institute of Technology}
+  school={Massachusetts Institute of Technology},
+  url={http://hdl.handle.net/1721.1/86610}
 }
 
 @article{tarr2015shs,
   title={{Designing a secret handshake: authenticated key exchange as a capability system}},
   author={Tarr, Dominic},
   year={2015},
+  notes={Retrieved 2023-07-16},
   url={https://dominictarr.github.io/secret-handshake-paper/shs.pdf}
 }
 
@@ -3174,7 +3168,7 @@ year = {2019},
 isbn = {9781450372701},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3335772.3335934},
+doi = {10.1145/3335772.3335934},
 booktitle = {Concurrency: The Works of Leslie Lamport},
 pages = {179–196},
 numpages = {18}
@@ -3187,7 +3181,7 @@ year = {2019},
 isbn = {9781450372701},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3335772.3335936},
+doi = {10.1145/3335772.3335936},
 booktitle = {Concurrency: The Works of Leslie Lamport},
 pages = {203–226},
 numpages = {24}
@@ -3195,7 +3189,7 @@ numpages = {24}
 
 @article{pease1980pease,
 author = {Pease, M. and Shostak, R. and Lamport, L.},
-title = {Reaching Agreement in the Presence of Faults},
+title = {{Reaching Agreement in the Presence of Faults}},
 year = {1980},
 issue_date = {April 1980},
 publisher = {Association for Computing Machinery},
@@ -3213,16 +3207,17 @@ numpages = {7}
 
 @book{lamport2019concurrency,
 editor = {Malkhi, Dahlia},
-title = {Concurrency: The Works of Leslie Lamport},
+title = {{Concurrency: The Works of Leslie Lamport}},
 year = {2019},
 isbn = {9781450372701},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
+doi = {10.1145/3335772.3335936}
 }
 
 @inproceedings{mazieres2002sfs-byzantine-storage,
 author = {Mazi\`{e}res, David and Shasha, Dennis},
-title = {Building Secure File Systems out of Byzantine Storage},
+title = {{Building Secure File Systems out of Byzantine Storage}},
 year = {2002},
 isbn = {1581134851},
 publisher = {Association for Computing Machinery},
@@ -3236,8 +3231,8 @@ series = {PODC '02}
 }
 
 @inproceedings{li2007beyondonethirdbft,
-author = {Li, Jinyuan and Mazi\'{e}res, David},
-title = {Beyond One-Third Faulty Replicas in Byzantine Fault Tolerant Systems},
+author = {Li, Jinyuan and Mazieres, David},
+title = {{Beyond One-Third Faulty Replicas in Byzantine Fault Tolerant Systems}},
 year = {2007},
 publisher = {USENIX Association},
 address = {USA},
@@ -3245,7 +3240,8 @@ booktitle = {Proceedings of the 4th USENIX Conference on Networked Systems Desig
 pages = {10},
 numpages = {1},
 location = {Cambridge, MA},
-series = {NSDI'07}
+series = {NSDI'07},
+doi={10.5555/1973430.1973440}
 }
 
 @article{cachin2008fork,
@@ -3280,7 +3276,7 @@ url={http://reports-archive.adm.cs.cmu.edu/anon/anon/home/ftp/usr0/ftp/2006/CMU-
 
 @article{mahajan2011depot,
 author = {Mahajan, Prince and Setty, Srinath and Lee, Sangmin and Clement, Allen and Alvisi, Lorenzo and Dahlin, Mike and Walfish, Michael},
-title = {Depot: Cloud Storage with Minimal Trust},
+title = {{Depot: Cloud Storage with Minimal Trust}},
 year = {2011},
 issue_date = {December 2011},
 publisher = {Association for Computing Machinery},
@@ -3299,7 +3295,7 @@ keywords = {Fork-Join-Causal (FJC) consistency, Cloud storage, fork consistency,
 
 @misc{jacob2022bft-crdt,
 author = "Jacob, Florian and Bayreuther, Saskia and Hartenstein, Hannes",
-title = {{On CRDTs in Byzantine Environments }},
+title = {{On CRDTs in Byzantine Environments}},
 year = 2022,
 howpublished="GI SICHERHEIT",
 publisher = "Gesellschaft für Informatik, Bonn",
@@ -3311,7 +3307,7 @@ doi={10.18420/sicherheit2022_07}
 
 @inproceedings{maniatis2002secure-timeline-entanglement,
 author = {Maniatis, Petros and Baker, Mary},
-title = {Secure History Preservation Through Timeline Entanglement},
+title = {{Secure History Preservation Through Timeline Entanglement}},
 year = {2002},
 isbn = {1931971005},
 publisher = {USENIX Association},
@@ -3319,7 +3315,10 @@ address = {USA},
 booktitle = {11th USENIX Security Symposium},
 pages = {297–312},
 numpages = {16},
-url={https://www.usenix.org/legacy/event/sec02/full_papers/maniatis/maniatis_html/}
+year      = {2002},
+archivePrefix = {arXiv},
+eprint={cs/0202005},
+url={https://www.usenix.org/legacy/event/sec02/full_papers/maniatis/maniatis_html/},
 }
 
 @article{schwarz1994detecting,
@@ -3332,6 +3331,13 @@ url={https://www.usenix.org/legacy/event/sec02/full_papers/maniatis/maniatis_htm
   publisher={Springer},
   doi={10.1007/BF02277859}
 }
+
+@misc{libgit2,
+	title={{libgit2: A cross-platform, linkable library implementation of Git that you can use in your application.}},
+	year={2008-2023},
+	url={https://github.com/libgit2/libgit2}
+}
+
 
 
 
