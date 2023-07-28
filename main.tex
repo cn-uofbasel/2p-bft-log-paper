@@ -44,11 +44,11 @@
 \newcommand{\anyleadsto}[1]{\overset{#1}\leadsto}
 \newcommand{\logleadsto}{\overset{\textit{log}}\leadsto}
 
-\title{2P-BFT-Log: 2-Phases Single-Author Append-Only Log for Adversarial Environments}
+\title{2P-BFT-Log: 2-Phase Single-Author Append-Only Log for Adversarial Environments}
 \author{Erick Lavoie \\
 University of Basel \\
 \href{mailto:erick.lavoie@unibas.ch}{erick.lavoie@unibas.ch}}
-\date{July 16, 2023}							% Activate to display a given date or no 
+\date{July 28, 2023}							% Activate to display a given date or no 
 
 \begin{document}
 \maketitle
@@ -57,7 +57,7 @@ University of Basel \\
 \begin{abstract}
 Replicated append-only logs sequentially order messages from the same author such that their ordering can be eventually recovered even with out-of-order and unreliable dissemination of individual messages. They are widely used for implementing replicated services in both clouds and peer-to-peer environments because they provide simple and efficient incremental reconciliation. However, existing designs of replicated append-only logs assume replicas faithfully maintain the sequential properties of logs and do not provide eventual consistency when malicious participants fork their logs by disseminating different messages to different replicas for the same index, which may result in partitioning of replicas according to which branch was first replicated.
  
-In this paper, we present \textit{2P-BFT-Log}, a two-phases replicated append-only log that provides eventual consistency in the presence of forks from malicious participants such that all correct replicas will eventually agree either on the most recent message of a valid log (first phase) or on the earliest point at which a fork occurred as well as on an irrefutable proof that it happened (second phase). We provide definitions, algorithms, and proofs of the key properties of the design, and explain one way to implement the design onto Git, an eventually consistent replicated database originally designed for distributed version control.
+In this paper, we present \textit{2P-BFT-Log}, a two-phase replicated append-only log that provides eventual consistency in the presence of forks from malicious participants such that all correct replicas will eventually agree either on the most recent message of a valid log (first phase) or on the earliest point at which a fork occurred as well as on an irrefutable proof that it happened (second phase). We provide definitions, algorithms, and proofs of the key properties of the design, and explain one way to implement the design onto Git, an eventually consistent replicated database originally designed for distributed version control.
 
 Our design enables correct replicas to faithfully implement the happens-before relationship first introduced by Lamport that underpins most existing distributed algorithms, with eventual detection of forks from malicious participants to exclude the latter from further progress. This opens the door to adaptations of existing distributed algorithms to a cheaper \textit{detect} and \textit{repair} paradigm, rather than the more common and expensive systematic \textit{prevention} of incorrect behaviour.
 \end{abstract}
@@ -73,7 +73,7 @@ To prevent tampering and ensure authenticity, some peer-to-peer systems~\cite{ke
 
 Also, append-only logs, as currently implemented in some peer-to-peer systems~\cite{kermarrec2020gossiping,lavoie2023gocledger,hypercore-handling-conflicts,hypercore-split-resolution-dep},  cannot tolerate malicious participants~\cite{Kleppmann2022byzantine,jacob2022bft-crdt} because once a replica has replicated one of the concurrent branches of a forked log, the replica will consider any other branch updates as invalid. This results in a partitioning of correct replicas, preventing convergence.
 
-In this paper, we present the design of a two-phases Byzantine Fault-Tolerant append-only log, \textit{2P-BFT-Log}, which provides eventual consistency in the presence of malicious authors that may intentionally fork their log. The key idea and novel contribution in our design is to introduce a second \textit{shrinking} phase after a fork has been discovered, such that all correct replicas agree on the earliest fork that has been observed so far. An irrefutable proof, in the form of at least two signed messages from the malicious author that have the same predecessor message, is replicated between correct replicas to establish the earliest fork point. In the context of decentralized accounting~\cite{lavoie2023gocledger}, for example, our design provides two key properties for both correct and malicious authors: for correct authors, the total ordering of messages guarantees valid updates always maintain non-negative balances for accounts, while for malicious authors, it provides eventual detection of potential double-spending because double-spending requires concurrent messages.
+In this paper, we present the design of a two-phase Byzantine Fault-Tolerant append-only log, \textit{2P-BFT-Log}, which provides eventual consistency in the presence of malicious authors that may intentionally fork their log. The key idea and novel contribution in our design is to introduce a second \textit{shrinking} phase after a fork has been discovered, such that all correct replicas agree on the earliest fork that has been observed so far. An irrefutable proof, in the form of at least two signed messages from the malicious author that have the same predecessor message, is replicated between correct replicas to establish the earliest fork point. In the context of decentralized accounting~\cite{lavoie2023gocledger}, for example, our design provides two key properties for both correct and malicious authors: for correct authors, the total ordering of messages guarantees valid updates always maintain non-negative balances for accounts, while for malicious authors, it provides eventual detection of potential double-spending because double-spending requires concurrent messages.
 
 Moreover, the switch of forked logs to an explicit and separate shrinking phase eventually prevents malicious authors from being able to extend their log with correct replicas: as soon a correct replica finds a fork proof, malicious authors have a limited window of opportunity to propagate new forks to an ever shrinking set of correct replicas that have not yet received the fork proof. After that opportunity is over, the log of a malicious author is \textit{dead} as it cannot be extended anymore.
 
@@ -352,7 +352,7 @@ We can then use the first message of each branch of the fork as proofs that a fo
 \subsection{Log}
 \label{sec:design:log}
 
-In this section, we define a 2-phases append-only log as a state-based CRDT: in the first \textit{growing} phase, a log replica is extended by appending a new message after the last one; in the second \textit{shrinking} phase, a log replica's last message is the greatest lower bound of all known forks made of valid messages. In addition, the log replica maintains a proof of the fork, in the form of a set of at least two messages that have the log's last message as predecessor. Both phases are eventually consistent: the first phase implements the same behaviour as regular append-only logs while the second  provides the longest valid prefix log among all forks known by correct replicas.
+In this section, we define a two-phase append-only log as a state-based CRDT: in the first \textit{growing} phase, a log replica is extended by appending a new message after the last one; in the second \textit{shrinking} phase, a log replica's last message is the greatest lower bound of all known forks made of valid messages. In addition, the log replica maintains a proof of the fork, in the form of a set of at least two messages that have the log's last message as predecessor. Both phases are eventually consistent: the first phase implements the same behaviour as regular append-only logs while the second  provides the longest valid prefix log among all forks known by correct replicas.
 
 The state of a log $L$ is defined as follows: it is associated to a given author $L_\textit{author}$; it has a reference $L_\textit{last}$ to the last message from $L_\textit{author}$ that forms a strict sequence; and it has a set $L_\textit{forks}$ of messages, if any, that prove that there was a fork after $L_\textit{last}$. $L$ is in the growing phase if there are no known forks, i.e. $L_\textit{forks} = \emptyset$, otherwise it is in the shrinking phase. Once a fork as been found, $L$ stays in the shrinking phase forever. 
 
@@ -1433,7 +1433,7 @@ Depot~\cite{mahajan2011depot} describes at a high-level a client-server Cloud St
 \section{Conclusion}
 \label{sec:conclusion}
 
-We have presented \textit{2P-BFT-Log}, a two-phases Byzantine Fault-Tolerant single-author append-only log design as a state-based Conflict Free Replicated Datatype. The key idea and novel contribution of our design is to add a \textit{shrinking} phase after the usual growing phase of append-only log, that is triggered by the discovery of a fork, and provides eventual consistency between all correct replica on the greatest lower bound to all forks known by correct replicas.
+We have presented \textit{2P-BFT-Log}, a two-phase Byzantine Fault-Tolerant single-author append-only log design as a state-based Conflict Free Replicated Datatype. The key idea and novel contribution of our design is to add a \textit{shrinking} phase after the usual growing phase of append-only log, that is triggered by the discovery of a fork, and provides eventual consistency between all correct replica on the greatest lower bound to all forks known by correct replicas.
 
 Our design enables establishing a total order between the messages of correct authors while providing eventual detection of concurrent messages for malicious authors. This enables, in the context of an accounting application for example, to ensure correct authors maintain non-negative balances while malicious authors double-spending, which can only be done with concurrent messages, is eventually detected.
 
@@ -1446,7 +1446,7 @@ However, our design does not solve the issue of how correct authors may repair t
 
 We thank Prof. Christian F. Tschudin for fostering a research environment allowing detours and playfulness in the process, as well as providing financial support for this work and feedback on earlier versions of this work. 
 
-We would also like to thank the Secure-Scuttlebutt community for its enthusiasm in general, being a great springboard for discussions that help identify important and practically relevant underlying technical problems, and its relevant and timely discussions on our papers.
+We would also like to thank the Secure-Scuttlebutt community for its enthusiasm in general, being a great springboard for discussions that help identify important and practically relevant underlying technical problems, and its relevant and timely discussions on our papers. In particular, we would like to thank Aljoscha Meyer for feedback on a previous version of this paper.
 
 We also thank the Swiss tax payers for contributing their hard-earned funds to make a Swiss academia possible in general, and this paper in particular. We hope our contribution to knowledge will provide general value in different forms many times larger than what it cost you.
 
